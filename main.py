@@ -5,8 +5,11 @@ from perlin_noise import PerlinNoise
 from numpy import floor
 
 
-grass_texture = "assets/grass_14.png"
+grass_texture_path = "assets/grass_14.png"
+# grass_texture = ursina.load_texture(name="grass_14.png",
+#   path=grass_texture_path)
 
+grass_texture = grass_texture_path
 terain_width = 32
 
 
@@ -17,6 +20,13 @@ def input(key):
 
 def update():
     pass
+
+
+# def generate_shell(shell_width: int, shellies: list, player, freq: int, amp: int) -> None:
+#     for i in range(len(shellies)):
+#         x = shellies[i].x = floor((i / shell_width) + player.x)
+#         z = shellies[i].z = floor((i / shell_width) + player.z)
+#         shellies[i].y = floor((noise([x/freq, z/freq])) * amp)
 
 
 app = ursina.Ursina()
@@ -44,11 +54,22 @@ terrein.combine()
 terrein.collider = "mesh"
 terrein.texture = grass_texture
 
+shell_width = 6
+shellies = [ursina.Entity(model="cube", collider="box") for _ in range(
+    shell_width * shell_width)]
+
+
 player = FirstPersonController()
 player.cursor.visible = False
 player.gravity = 1
 player.x = 5
 player.z = 5
 player.y = 12
+
+chicken_model = ursina.load_model("chicken.obj")
+vincent = ursina.Entity(model=chicken_model, scale=1,
+                        x=22, z=16, y=7.1,
+                        texture="chicken.png",
+                        double_sided=True)
 
 app.run()
